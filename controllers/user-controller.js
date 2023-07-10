@@ -1,7 +1,7 @@
 const User = require('../schemas/user-schema');
 
 const createUser = (req, res) => {
-  const { username, email, preferite } = req.body;
+  const { username, email, preferite, password } = req.body;
 
   if (!username || !email) {
     return res.status(400).json({
@@ -22,6 +22,37 @@ const createUser = (req, res) => {
       });
     })
     .catch(error => {
+      return res.status(400).json({
+        error,
+        message: 'User not created!',
+      });
+    });
+};
+
+const register = (req, res) => {
+  
+  const { username, email, password } = req.body;
+  console.log({username}, {email}, {password})
+  if (!username || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      error: 'You must provide a username and email',
+    });
+  }
+  preferite=[]
+  const user = new User({ Username: username, Email: email, Preferite: preferite, Password: password });
+  console.log(user)
+  user
+    .save()
+    .then(() => {
+      return res.status(201).json({
+        success: true,
+        id: user._id,
+        message: 'User created!',
+      });
+    })
+    .catch(error => {
+      console.log(error)
       return res.status(400).json({
         error,
         message: 'User not created!',
@@ -139,10 +170,41 @@ const getUserById = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  console.log(req.body)
+  const { username, password } = req.body;
+  console.log({username}, {password}) 
+  try {
+    const user = await User.findOne({"Username": username });
+    console.log({user})
+    if (!user) {
+      console.log("!user")
+      return res.status(401).json({ success: false, message: 'Username non valido.' });
+    }
+
+
+    if (! (password == user.Password)) {
+      console.log("!passwords")
+      return res.status(401).json({ success: false, message: 'Password non valida.'});
+    }
+    console.log("CORRETTO")
+    // Effettua l'accesso riuscito
+    // Genera un token di accesso o esegui altre azioni necessarie
+
+    res.status(200).json({ success: true, message: 'Accesso riuscito.'  , data: user});
+  } catch (error) {
+    
+    res.status(500).json({ success: false, message: 'Errore durante accesso.'});
+  }
+};
+
+
 module.exports = {
   createUser,
   updateUser,
   deleteUser,
   getUsers,
   getUserById,
+  register,
+  login
 };

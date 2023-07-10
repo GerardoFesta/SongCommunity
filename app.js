@@ -1,5 +1,14 @@
 const express = require("express");
 const app = express();
+var cors = require('cors')
+
+app.use(cors({
+  origin: 'http://localhost:8000',
+  credentials: true,
+}));
+
+
+
 const bodyParser = require('body-parser');
 const songRouter = require('./routes/song-router')
 const userRouter = require('./routes/user-router') 

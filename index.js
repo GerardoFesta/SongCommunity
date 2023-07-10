@@ -1,9 +1,7 @@
 const http = require('http');
 const app = require('./app');
 
-var cors = require('cors')
 
-app.use(cors())
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -39,6 +37,9 @@ const errorHandler = error => {
   }
 };
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 const server = http.createServer(app);
 
 server.on('error', errorHandler);

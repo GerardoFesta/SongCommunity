@@ -9,5 +9,6 @@ userRouter.put('/user/:id', UserCtrl.updateUser)
 userRouter.delete('/user/:id', UserCtrl.deleteUser)
 userRouter.get('/user/:id', UserCtrl.getUserById)
 userRouter.get('/users', UserCtrl.getUsers)
-
+userRouter.post('/user/login', UserCtrl.login);
+userRouter.post('/user/register', UserCtrl.register)
 module.exports = userRouter

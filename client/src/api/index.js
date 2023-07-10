@@ -15,6 +15,9 @@ export const getAllUser = () => api.get(`/users`)
 export const updateUserById = (id, payload) => api.put(`/user/${id}`, payload)
 export const deleteUserById = id => api.delete(`/user/${id}`)
 export const getUserById = id => api.get(`/user/${id}`)
+export const login = (username, password) => api.post('/user/login', { username, password });
+export const register = (username, password, email) => api.post('/user/register', { username, password, email });
+
 
 const apis = {
     insertSong,
@@ -27,6 +30,8 @@ const apis = {
     updateUserById,
     deleteUserById,
     getUserById,
+    login,
+    register,
 }
 
 export default apis

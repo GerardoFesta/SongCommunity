@@ -1,16 +1,26 @@
 import React, { Component } from 'react'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import api from '../api'
+
+import styled from 'styled-components'
+
+import 'react-table-6/react-table.css'
+
+const Wrapper = styled.div`
+    padding: 0 40px 40px 40px;
+`
+
 
 
 
 
 
 class SongList extends Component {
+    
     constructor(props) {
         super(props)
         this.state = {
-            song: [],
+            songs: [],
             columns: [],
             isLoading: false,
         }
@@ -19,59 +29,79 @@ class SongList extends Component {
     componentDidMount = async () => {
         this.setState({ isLoading: true })
 
-        await api.getAllSongs().then(song => {
+        await api.getAllSongs().then(songs => {
             this.setState({
-                song: song.data.data,
+                songs: songs.data.data,
                 isLoading: false,
             })
         })
     }
 
     render() {
-        const { song, isLoading } = this.state
-        console.log('TCL: SongList -> render -> song', song)
-
+        const { songs, isLoading } = this.state
+        console.log('TCL: SongsList -> render -> movies', songs)
+        songs.forEach(song => song.artists = song.artists.join(", "))
         const columns = [
             {
                 Header: 'ID',
                 accessor: '_id',
                 filterable: true,
+                filterMethod: (filter, row) => {
+                    const id = row[filter.id];
+                    return id.toLowerCase().includes(filter.value.toLowerCase());
+                  },
             },
             {
-                Header: 'Name',
-                accessor: 'name',
+                Header: 'Track Name',
+                accessor: 'track_name',
                 filterable: true,
+                filterMethod: (filter, row) => {
+                    const id = row[filter.id];
+                    return id.toLowerCase().includes(filter.value.toLowerCase());
+                  },
             },
             {
-                Header: 'Rating',
-                accessor: 'rating',
+                Header: 'Genre',
+                accessor: 'track_genre',
                 filterable: true,
+                filterMethod: (filter, row) => {
+                    const id = row[filter.id];
+                    return id.toLowerCase().includes(filter.value.toLowerCase());
+                  },
             },
             {
-                Header: 'Time',
-                accessor: 'time',
-                Cell: props => <span>{props.value.join(' / ')}</span>,
+                Header: 'Artists',
+                accessor: 'artists',
+                filterable: true,
+                filterMethod: (filter, row) => {
+                    const id = row[filter.id];
+                    return id.toLowerCase().includes(filter.value.toLowerCase());
+                },
             },
+          
         ]
 
         let showTable = true
-        if (!song.length) {
+        if (!songs.length) {
             showTable = false
         }
 
         return (
-            <div>
-                {showTable && (
+  
+            
+            
+            <Wrapper>
+                { showTable && (
                     <ReactTable
-                        data={song}
+                        data={songs}
                         columns={columns}
                         loading={isLoading}
-                        defaultPageSize={10}
+                        defaultPageSize={25}
                         showPageSizeOptions={true}
                         minRows={0}
                     />
                 )}
-            </div>
+            </Wrapper>
         )
     }
 }

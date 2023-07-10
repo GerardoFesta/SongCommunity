@@ -124,7 +124,7 @@ const getSongById = async (req, res) => {
 
 const getSongs = async (req, res) => {
     try {
-      const songs = await Song.find({});
+      const songs = await Song.find({}).limit(10000);
       console.log(songs);
   
       if (songs.length === 0) {

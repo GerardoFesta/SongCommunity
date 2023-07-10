@@ -20,7 +20,7 @@ class Links extends Component {
         return (
             <React.Fragment>
                 <Link to="/" className="navbar-brand">
-                    My first MERN Application
+                    SongCommunity
                 </Link>
                 <Collapse>
                     <List>
@@ -34,6 +34,26 @@ class Links extends Component {
                                 Create 
                             </Link>
                         </Item>
+                        {!localStorage.getItem('isAuthenticated') && (
+                        <Item>
+    
+                            <Link to="/register" className="nav-link">
+                                Register
+                            </Link>
+                        </Item>
+                        )}
+                        {!localStorage.getItem('isAuthenticated') && (<Item>
+                            <Link to="/login" className="nav-link">
+                                Login
+                            </Link>
+                        </Item>
+                        )}
+                        {localStorage.getItem('isAuthenticated') && (<Item>
+                            <Link to="/areaPersonale" className="nav-link">
+                                Area Personale
+                            </Link>
+                        </Item>
+                        )}
                     </List>
                 </Collapse>
             </React.Fragment>
