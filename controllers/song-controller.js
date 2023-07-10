@@ -2,7 +2,7 @@ const Song = require('../schemas/song-schema')
 
 createSong = (req, res) => {
     const body = req.body
-
+    console.log(body)
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -13,7 +13,7 @@ createSong = (req, res) => {
     const song = new Song(body)
 
     if (!song) {
-        return res.status(400).json({ success: false, error: err })
+        return res.status(400).json({success: false, error: err })
     }
 
     song
@@ -106,34 +106,37 @@ deleteSong = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-getSongById = async (req, res) => {
-    await Song.findOne({ song_id: req.params.id }, (err, song) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
+const getSongById = async (req, res) => {
+    try {
+      const song = await Song.findOne({ song_id: req.params.id });
+  
+      if (!song) {
+        return res.status(404).json({ success: false, error: 'Song not found' });
+      }
+  
+      return res.status(200).json({ success: true, data: song });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ success: false, error: err });
+    }
+  };
+  
 
-        if (!song) {
-            return res
-                .status(404)
-                .json({ success: false, error: `Song not found` })
-        }
-        return res.status(200).json({ success: true, data: song })
-    }).catch(err => console.log(err))
-}
-
-getSongs = async (req, res) => {
-    await Song.find({}, (err, songs) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        if (!songs.length) {
-            return res
-                .status(404)
-                .json({ success: false, error: `Song not found` })
-        }
-        return res.status(200).json({ success: true, data: songs })
-    }).catch(err => console.log(err))
-}
+const getSongs = async (req, res) => {
+    try {
+      const songs = await Song.find({});
+      console.log(songs);
+  
+      if (songs.length === 0) {
+        return res.status(404).json({ success: false, error: 'Song not found' });
+      }
+  
+      return res.status(200).json({ success: true, data: songs });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ success: false, error: err });
+    }
+  };
 
 module.exports = {
     createSong,

@@ -25,7 +25,8 @@ const Song = new Schema(
         time_signature: { type: Number, required: true },
         track_genre: { type: String, required: true },
     },
+    { collection: 'Songs' },
     { timestamps: true },
 )
 
-module.exports = mongoose.model('songs', Song)
+module.exports = mongoose.model('Songs', Song)

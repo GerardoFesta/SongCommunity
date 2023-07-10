@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
-
+const songRouter = require('./routes/song-router')
+const userRouter = require('./routes/user-router') 
 // require database connection 
 const dbConnect = require("./db/dbConnect");
 
@@ -17,5 +18,7 @@ app.get("/", (request, response, next) => {
   next();
 });
 
+app.use('/api', songRouter)
+app.use('/api', userRouter)
 
 module.exports = app;
