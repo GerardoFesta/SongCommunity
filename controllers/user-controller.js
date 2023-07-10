@@ -60,6 +60,45 @@ const register = (req, res) => {
     });
 };
 
+const setUserFavorites = async (req, res) =>{
+  const { id , preferite } = req.body;
+  if (!id && !preferite) {
+    return res.status(400).json({
+      success: false,
+      error: 'You must provide id and fav songs',
+    });
+  }
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { Preferite: preferite } },
+      { new: true }
+    );
+
+    if (!user) {
+      console.log("Utente non trovato")
+      return res.status(404).json({
+        success: false,
+        error: 'User not found!',
+      });
+    }
+    console.log("Forse OK, se non c'è errore dopo")
+    return res.status(200).json({
+      success: true,
+      id: user._id,
+      message: 'User updated!',
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      error: err,
+      message: 'User not updated!',
+    });
+  }
+
+}
+
 const updateUser = async (req, res) => {
   const { username, email, preferite } = req.body;
 
@@ -206,5 +245,6 @@ module.exports = {
   getUsers,
   getUserById,
   register,
-  login
+  login,
+  setUserFavorites
 };

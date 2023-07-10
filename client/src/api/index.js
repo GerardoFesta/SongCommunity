@@ -17,6 +17,7 @@ export const deleteUserById = id => api.delete(`/user/${id}`)
 export const getUserById = id => api.get(`/user/${id}`)
 export const login = (username, password) => api.post('/user/login', { username, password });
 export const register = (username, password, email) => api.post('/user/register', { username, password, email });
+export const setUserFavorites = (id, preferite) => api.post('/user/preferite', { id, preferite });
 
 
 const apis = {
@@ -32,6 +33,7 @@ const apis = {
     getUserById,
     login,
     register,
+    setUserFavorites
 }
 
 export default apis

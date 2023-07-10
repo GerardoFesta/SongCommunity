@@ -11,4 +11,5 @@ userRouter.get('/user/:id', UserCtrl.getUserById)
 userRouter.get('/users', UserCtrl.getUsers)
 userRouter.post('/user/login', UserCtrl.login);
 userRouter.post('/user/register', UserCtrl.register)
+userRouter.post('/user/preferite', UserCtrl.setUserFavorites)
 module.exports = userRouter
