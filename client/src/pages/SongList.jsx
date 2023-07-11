@@ -123,19 +123,24 @@ class SongList extends Component {
     }
 
     return (
-      <Wrapper>
+      <Wrapper className="container mt-4">
         {showTable && (
-          <ReactTable
-            data={songs}
-            columns={columns}
-            loading={isLoading}
-            defaultPageSize={25}
-            showPageSizeOptions={true}
-            minRows={0}
-          />
+          <div className="card">
+            <div className="card-body">
+              <ReactTable
+                data={songs}
+                columns={columns}
+                loading={isLoading}
+                defaultPageSize={25}
+                showPageSizeOptions={true}
+                minRows={0}
+                className="-striped -highlight"
+              />
+            </div>
+          </div>
         )}
-      </Wrapper>
-    );
+   </Wrapper>
+  );
   }
 }
 

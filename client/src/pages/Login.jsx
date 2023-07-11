@@ -37,27 +37,36 @@ function Login() {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col xs={12} md={6}>
-          <h2>Login</h2>
-          {errorMessage && <p>{errorMessage}</p>}
+<Container className="mt-4 mt-5">
+  <Row className="justify-content-center text-center">
+    <Col xs={20} md={6}>
+      <div className="card">
+        <div className="card-body">
+          <h2 className="card-title">Login</h2>
+          {errorMessage && <p className="card-text">{errorMessage}</p>}
           <Form onSubmit={handleLogin}>
             <Form.Group controlId="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+              <br />
+              <Form.Label className="fw-bold">Username</Form.Label>
+              <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control form-control-sm" />
             </Form.Group>
             <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <br />
+              <Form.Label className="fw-bold">Password</Form.Label>
+              <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control form-control-sm" />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <br />
+            <Button variant="primary" type="submit" className="btn btn-primary">
               Accedi
             </Button>
           </Form>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </Col>
+  </Row>
+</Container>
+
+
   );
 }
 

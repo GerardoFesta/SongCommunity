@@ -102,37 +102,27 @@ class AreaPersonale extends Component {
     ];
 
     return (
-      <div>
-        <h1>Area Personale</h1>
-        <p>Benvenuto, {username} !</p>
-        <p>Email: {email}</p>
-        <p>Song preferite:</p>
-        {preferite.length > 0 ? (
-          <Table striped bordered hover>
-          <thead>
-            <tr>
-              {columns.map(column => (
-                <th key={column.Header}>{column.Header}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {preferite.map((canzone, index) => (
-              <tr key={index}>
-                {columns.map(column => (
-                  <td key={column.accessor}>
-                    {column.Cell ? column.Cell({ value: canzone[column.accessor] }) : canzone[column.accessor]}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        ) : (
-          <p>Nessuna canzone preferita trovata.</p>
-        )}
-        {/* Aggiungi qui altri componenti o informazioni dell'utente */}
-      </div>
+      <div className="container mt-4">
+  <h1 className="mb-4">Area Personale</h1>
+  <div className="card">
+    <div className="card-body">
+      <h5 className="card-title">Benvenuto, {username}!</h5>
+      <p className="card-text">Email: {email}</p>
+      <h6 className="card-subtitle mb-2 text-muted">Song preferite:</h6>
+      {preferite.length > 0 ? (
+        <ReactTable
+          data={preferite}
+          columns={columns}
+          defaultPageSize={10}
+          filterable={true}
+          className="-striped -highlight"
+        />
+      ) : (
+        <p>Nessuna canzone preferita trovata.</p>
+      )}
+    </div>
+  </div>
+</div>
     );
   }
 }
