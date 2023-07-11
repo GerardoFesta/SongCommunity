@@ -3,7 +3,7 @@ import api, { getUserById } from '../api';
 import { useState, useEffect } from 'react';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
-import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 
 
@@ -46,6 +46,13 @@ class AreaPersonale extends Component {
     }
   };
   
+
+  searchSimilar = async (songId) => {
+    const { preferite } = this.state;
+    console.log({songId}, {preferite})
+    const similar = await api.getSimilarSongs(songId, preferite);
+    console.log(similar)
+  };
   
 
   render() {
@@ -97,6 +104,13 @@ class AreaPersonale extends Component {
           return id.toLowerCase().includes(filter.value.toLowerCase());
         },
         
+      },
+      {
+        Header: 'Search similar',
+        Cell: ({ original }) => ( 
+            <Button onClick={() => this.searchSimilar(original.song_id)}>Cerca Simili</Button>
+
+        ),
       },
       // Aggiungi qui altre colonne desiderate
     ];
