@@ -23,7 +23,7 @@ const Song = new Schema(
         valence: { type: Number, required: true },
         tempo: { type: Number, required: true },
         time_signature: { type: Number, required: true },
-        track_genre: { type: String, required: true },
+        track_genre: { type: [String], required: true },
     },
     { collection: 'Songs' },
     { timestamps: true },
