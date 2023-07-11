@@ -29,6 +29,7 @@ function Register() {
 
     try {
       const response = await api.register(username, password, email);
+      console.log(response)
       // Se la registrazione è avvenuta con successo, reindirizza l'utente alla pagina di login
       history('/login');
     } catch (error) {
