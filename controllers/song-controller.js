@@ -138,10 +138,144 @@ const getSongs = async (req, res) => {
     }
   };
 
+const getSimilarSongs = async (req, res) =>{
+    try{
+        const{id, preferite} = req.body
+        const song = await Song.findOne({ song_id: id });
+        if (!song) {
+            return res.status(404).json({ success: false, error: 'Song not found' });
+        }
+        const similarSongs = await Song.aggregate([
+            {
+              $match: {
+                _id: {
+                  $nin: preferite
+                }
+              }
+            },
+            {
+              $addFields: {
+                distance: {
+                  $sqrt: {
+                    $sum: [
+                        {
+                            $pow: [
+                              { $subtract: ['$duration_ms', parseInt(song.duration_ms)] },
+                              2
+                            ]
+                          },
+                          {
+                            $cond: {
+                              if: { $eq: ['$explicit', song.explicit] },
+                              then: 0,
+                              else: 1
+                            }
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$danceability', parseFloat(song.danceability)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$energy', parseFloat(song.energy)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$key', parseInt(song.key)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$loudness', parseFloat(song.loudness)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$mode', parseInt(song.mode)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$speechiness', parseFloat(song.speechiness)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$acousticness', parseFloat(song.acousticness)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$instrumentalness', parseFloat(song.instrumentalness)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$liveness', parseFloat(song.liveness)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$valence', parseFloat(song.valence)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$tempo', parseFloat(song.tempo)] },
+                              2
+                            ]
+                          },
+                          {
+                            $pow: [
+                              { $subtract: ['$time_signature', parseInt(song.time_signature)] },
+                              2
+                            ]
+                          },
+                          {
+                            $cond: {
+                              if: { $eq: ['$track_genre', song.track_genre] },
+                              then: 0,
+                              else: 1
+                            }
+                          }
+                          
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              $sort: { distance: 1 } // Ordina i risultati per distanza crescente
+            },
+            {
+              $limit: 5 // Restituisci solo le prime 5 canzoni più simili
+            }
+          ]);
+      
+        return res.status(200).json({ success: true, data: similarSongs });
+    } catch (err) {
+        console.log(err);
+        return res.status(400).json({ success: false, error: err });
+      }
+}
+
 module.exports = {
     createSong,
     updateSong,
     deleteSong,
     getSongs,
     getSongById,
+    getSimilarSongs
 }
