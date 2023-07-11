@@ -7,6 +7,7 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import AreaPersonale from '../pages/AreaPersonale';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     path="/songs/update/:id"
                     element={<SongUpdate />}
                 />
+                <Route path="/areaPersonale" element={<AreaPersonale />} />
             </Routes>
         </Router>
     )
