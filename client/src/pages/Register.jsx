@@ -38,46 +38,57 @@ function Register() {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col xs={12} md={6}>
-          <h2>Registration</h2>
-          {errorMessage && <p>{errorMessage}</p>}
-          <Form onSubmit={handleRegister}>
-            <Form.Group controlId="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Register
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <Container className="mt-4 mt-5">
+    <Row className="justify-content-center text-center">
+      <Col xs={12} md={6}>
+        <div className="card">
+          <div className="card-body">
+            <h2 className="card-title">Registration</h2>
+            {errorMessage && <p className="card-text">{errorMessage}</p>}
+            <Form onSubmit={handleRegister}>
+              <Form.Group controlId="username">
+              <br />
+                <Form.Label className="fw-bold">Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  className="form-control"
+                />
+              </Form.Group>
+              <Form.Group controlId="email">
+              <br />
+                <Form.Label className="fw-bold">Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="form-control"
+                />
+              </Form.Group>
+              <Form.Group controlId="password">
+              <br />
+                <Form.Label className="fw-bold">Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="form-control"
+                />
+              </Form.Group>
+              <br />
+              <Button variant="primary" type="submit" className="btn btn-primary">
+                Register
+              </Button>
+            </Form>
+          </div>
+        </div>
+      </Col>
+    </Row>
+  </Container>
   );
 }
 
