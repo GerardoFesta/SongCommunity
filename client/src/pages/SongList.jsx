@@ -37,8 +37,13 @@ class SongList extends Component {
     
   
     await api.getAllSongs().then((songs) => {
+      songs = songs.data.data
+      songs.forEach(song => {
+        song.artists = song.artists.join(", ")
+        song.track_genre = song.track_genre.join(", ")
+      })
       this.setState({
-        songs: songs.data.data,
+        songs: songs,
         isLoading: false,
         favorites: favorites,
       });
@@ -87,7 +92,7 @@ class SongList extends Component {
         },
       },
       {
-        Header: 'Genre',
+        Header: 'Genres',
         accessor: 'track_genre',
         filterable: true,
         filterMethod: (filter, row) => {
