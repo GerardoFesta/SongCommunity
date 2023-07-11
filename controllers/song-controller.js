@@ -141,15 +141,17 @@ const getSongs = async (req, res) => {
 const getSimilarSongs = async (req, res) =>{
     try{
         const{id, preferite} = req.body
+        const songIds = preferite.map(item => item.song_id);
         const song = await Song.findOne({ song_id: id });
         if (!song) {
             return res.status(404).json({ success: false, error: 'Song not found' });
         }
+        
         const similarSongs = await Song.aggregate([
             {
               $match: {
-                _id: {
-                  $nin: preferite
+                song_id: {
+                  $nin: songIds
                 }
               }
             },
