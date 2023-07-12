@@ -28,8 +28,8 @@ class Links extends Component {
                             </Link>
                         </Item>
                         <Item>
-                            <Link to="/songs/create" className="nav-link">
-                                Create 
+                            <Link to="/community" className="nav-link">
+                                Community 
                             </Link>
                         </Item>
                         {!localStorage.getItem('isAuthenticated') && (

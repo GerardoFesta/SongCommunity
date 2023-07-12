@@ -19,6 +19,7 @@ export const login = (username, password) => api.post('/user/login', { username,
 export const register = (username, password, email) => api.post('/user/register', { username, password, email });
 export const setUserFavorites = (id, preferite) => api.post('/user/preferite', { id, preferite });
 export const getSimilarSongs = (id, preferite) => api.post('/songs/similar', { id, preferite });
+export const getSimilarUsers = (id) => api.get(`/user/similar/${id}`);
 
 const apis = {
     insertSong,
@@ -34,7 +35,8 @@ const apis = {
     login,
     register,
     setUserFavorites,
-    getSimilarSongs
+    getSimilarSongs,
+    getSimilarUsers
 }
 
 export default apis

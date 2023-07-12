@@ -1,5 +1,5 @@
 import SongList from './SongList'
-import SongInsert from './SongInsert'
+import CommunityPage from './CommunityPage'
 import SongUpdate from './SongUpdate'
 
-export { SongList, SongInsert, SongUpdate }
+export { SongList, CommunityPage, SongUpdate }
