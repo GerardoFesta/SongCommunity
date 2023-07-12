@@ -92,10 +92,18 @@ class CommunityPage extends Component {
                           <div className="d-flex justify-content-between">
                           {similarUsers.map((user) => (
                           <Card key={user.user_id} style={{ width: '18rem' }}>
-                              <Card.Body>
-                                  <Card.Title>{user.Username}</Card.Title>
-                              </Card.Body>
-                          </Card>
+                          <Card.Body>
+                              <Card.Title>{user.Username}</Card.Title>
+                              <p>Canzoni in comune: {user.commonCount}</p>
+                              <p>Canzoni preferite:</p>
+                                  <ul>
+                                    {user.CanzoniPreferite.map((song) => (
+                                      <li key={song.track_id}>{song.track_name}</li>
+                                    ))}
+                                  </ul>
+                              {/* Aggiungi altri elementi o componenti per visualizzare le informazioni aggiuntive */}
+                          </Card.Body>
+                      </Card>
                           ))}
                 </div>
               </Container>

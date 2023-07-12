@@ -12,7 +12,7 @@ const StyledNavbar = styled.nav`
   &.navbar {
     border-radius: 20px; /* Arrotonda i bordi */
     padding: 2px; /* Riduci la dimensione */
-
+    margin-bottom: 40px;
     /* Aggiungi altri stili se necessario */
   }
 `;
