@@ -57,6 +57,8 @@ class CommunityPage extends Component {
             }
             user["CanzoniPreferite"] = arrayPreferite
           }
+
+          
             
             /*
             user.CanzoniPreferite = arrayPreferite
@@ -75,38 +77,64 @@ class CommunityPage extends Component {
             email: email,
             preferite: arrayPreferite,
             similarUsers: similarUsers,
-            isLoading: false
+            isLoading: false,
+            preferiteIds: preferite
           });
         }
+
+        
       };
-    
-    
+      toggleFavorite = async (songId) => {
+        const { preferiteIds } = this.state;
+        if (preferiteIds.includes(songId)) {
+          const updatedFavorites = preferiteIds.filter((id) => id !== songId);
+          await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+          this.setState({ preferiteIds: updatedFavorites });
+        } else {
+          const updatedFavorites = [...preferiteIds, songId];
+          await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+          this.setState({ preferiteIds: updatedFavorites });
+        }
+      };
     render() {
-        const { isLoading, similarUsers } = this.state;
+        const { isLoading, similarUsers, preferiteIds } = this.state;
         console.log(similarUsers)
         console.log(isLoading)
         if(!isLoading){
+          
           return (
               <div>
-                      <Container>
-                          <div className="d-flex justify-content-between">
-                          {similarUsers.map((user) => (
-                          <Card key={user.user_id} style={{ width: '18rem' }}>
-                          <Card.Body>
-                              <Card.Title>{user.Username}</Card.Title>
-                              <p>Canzoni in comune: {user.commonCount}</p>
-                              <p>Canzoni preferite:</p>
-                                  <ul>
-                                    {user.CanzoniPreferite.map((song) => (
-                                      <li key={song.track_id}>{song.track_name}</li>
-                                    ))}
-                                  </ul>
-                              {/* Aggiungi altri elementi o componenti per visualizzare le informazioni aggiuntive */}
-                          </Card.Body>
-                      </Card>
-                          ))}
-                </div>
-              </Container>
+                     <Container>
+  <div className="d-flex justify-content-between">
+    {similarUsers.map((user) => (
+      <Card key={user.user_id} style={{ width: '18rem' }}>
+        <Card.Body>
+          <Card.Title>{user.Username}</Card.Title>
+          <Card.Text>
+            Canzoni in comune: {user.commonCount}
+          </Card.Text>
+          <Card.Text>
+            Canzoni preferite:
+          </Card.Text>
+          {user.CanzoniPreferite.map((song) => (
+            <Card key={song.songId} style={{ width: '14rem', marginBottom: '20px' }}>
+              <Card.Body>
+                <Card.Title>{song.track_name}</Card.Title>
+                <Card.Text>{song.artists}</Card.Text>
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
+                  onClick={() => this.toggleFavorite(song.song_id)}
+                  style={{ cursor: 'pointer' }}
+                />
+              </Card.Body>
+            </Card>
+          ))}
+        </Card.Body>
+      </Card>
+    ))}
+  </div>
+</Container>
             
               </div>
           )
