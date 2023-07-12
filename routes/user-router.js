@@ -12,4 +12,7 @@ userRouter.get('/users', UserCtrl.getUsers)
 userRouter.post('/user/login', UserCtrl.login);
 userRouter.post('/user/register', UserCtrl.register)
 userRouter.post('/user/preferite', UserCtrl.setUserFavorites)
+userRouter.get('/user/similar/:id', UserCtrl.getSimilarUsers)
+
+
 module.exports = userRouter

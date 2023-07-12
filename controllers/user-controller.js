@@ -60,6 +60,67 @@ const register = (req, res) => {
     });
 };
 
+
+const getSimilarUsers = async(req, res) =>{
+
+  const id  = req.params.id
+
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      error: 'You must provide id',
+    });
+  }
+  try{
+
+    const user = await User.findOne({ _id: id });; // Trova l'utente specificato dall'ID di input
+    if (!user) {
+      return res.status(404).json({ message: 'Utente non trovato' });
+    }
+
+    const simili = await User.aggregate([
+      {
+        $match: {
+          _id: { $ne: user._id } // Escludi l'utente specificato dall'ID di input
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          Username: 1,
+          Email: 1,
+          Preferite: 1,
+          commonCount: {
+            $size: { $setIntersection: ['$Preferite', user.Preferite] } // Calcola il numero di elementi in comune tra i Preferite dell'utente corrente e l'utente specificato dall'ID di input
+          }
+        }
+      },
+      { $sort: { commonCount: -1 } }, // Ordina in base al numero di elementi in comune in ordine decrescente
+      { $limit: 5 } // Limita il risultato ai primi cinque utenti con il maggior numero di elementi in comune
+    ]);
+
+    console.log(simili)
+    return res.status(200).json({
+      success: true,
+      data: simili,
+      message: 'Found similar',
+    });
+
+
+  }catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      error: err,
+      message: 'Error',
+    });
+  }
+
+  
+  
+  
+}
+
+
 const setUserFavorites = async (req, res) =>{
   const { id , preferite } = req.body;
   if (!id && !preferite) {
@@ -246,5 +307,6 @@ module.exports = {
   getUserById,
   register,
   login,
-  setUserFavorites
+  setUserFavorites,
+  getSimilarUsers
 };
