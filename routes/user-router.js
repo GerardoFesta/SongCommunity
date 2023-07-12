@@ -13,6 +13,8 @@ userRouter.post('/user/login', UserCtrl.login);
 userRouter.post('/user/register', UserCtrl.register)
 userRouter.post('/user/preferite', UserCtrl.setUserFavorites)
 userRouter.get('/user/similar/:id', UserCtrl.getSimilarUsers)
+userRouter.get('/user/artists/:id', UserCtrl.getUserFavouriteArtists)
+userRouter.get('/user/genres/:id', UserCtrl.getUserFavouriteGenres)
 
 
 module.exports = userRouter

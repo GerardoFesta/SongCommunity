@@ -1,4 +1,6 @@
 const User = require('../schemas/user-schema');
+const Song = require('../schemas/song-schema');
+
 
 const createUser = (req, res) => {
   const { username, email, preferite, password } = req.body;
@@ -299,6 +301,110 @@ const login = async (req, res) => {
 };
 
 
+const getUserFavouriteArtists = async (req,res) => {
+  const user_id = req.params.id 
+  console.log(user_id)
+
+  const user = await User.findOne({ _id: user_id });
+  if (!user_id) {
+    return res.status(404).json({
+      success: false,
+      error: 'User not found!',
+    });
+  }
+
+  canzoni_preferite = user.Preferite
+
+  try{
+    const artistiPreferiti = await Song.aggregate([
+      {
+        $match: { song_id: { $in: canzoni_preferite } } // Filtra solo le canzoni con ID presenti in "canzoni_preferite"
+      },
+      {
+        $unwind: '$artists' // Separa ogni artista in un documento separato
+      },
+      {
+        $group: {
+          _id: '$artists', // Raggruppa per artista
+          frequency: { $sum: 1 } // Calcola la frequenza di ogni artista
+        }
+      },
+      {
+        $sort: { frequency: -1 } // Ordina in base alla frequenza in ordine decrescente
+      }
+    ])
+    console.log(artistiPreferiti)
+
+    return res.status(200).json({
+      success: true,
+      artisti_preferiti: artistiPreferiti,
+      message: 'Artisti trovati',
+    });
+
+
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      error: err,
+      message: 'Artisti query errore',
+    });
+  }
+
+}
+
+
+const getUserFavouriteGenres = async (req,res) => {
+  const user_id = req.params.id 
+  console.log(user_id)
+
+  const user = await User.findOne({ _id: user_id });
+  if (!user_id) {
+    return res.status(404).json({
+      success: false,
+      error: 'User not found!',
+    });
+  }
+
+  canzoni_preferite = user.Preferite
+
+  try{
+    const generiPreferiti = await Song.aggregate([
+      {
+        $match: { song_id: { $in: canzoni_preferite } } // Filtra solo le canzoni con ID presenti in "canzoni_preferite"
+      },
+      {
+        $unwind: '$track_genre' // Separa ogni genere in un documento separato
+      },
+      {
+        $group: {
+          _id: '$track_genre', // Raggruppa per genere
+          frequency: { $sum: 1 } // Calcola la frequenza di ogni genere
+        }
+      },
+      {
+        $sort: { frequency: -1 } // Ordina in base alla frequenza in ordine decrescente
+      }
+    ])
+    console.log(generiPreferiti)
+
+    return res.status(200).json({
+      success: true,
+      generi_preferiti: generiPreferiti,
+      message: 'Generi trovati',
+    });
+
+
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      error: err,
+      message: 'Errore query generi!',
+    });
+  }
+
+}
+
+
 module.exports = {
   createUser,
   updateUser,
@@ -308,5 +414,7 @@ module.exports = {
   register,
   login,
   setUserFavorites,
-  getSimilarUsers
+  getSimilarUsers,
+  getUserFavouriteArtists,
+  getUserFavouriteGenres
 };

@@ -48,7 +48,7 @@ class Links extends Component {
                         )}
                         {localStorage.getItem('isAuthenticated') && (<Item>
                             <Link to="/areaPersonale" className="nav-link">
-                                Area Personale
+                                Preferite
                             </Link>
                         </Item>
                         )}

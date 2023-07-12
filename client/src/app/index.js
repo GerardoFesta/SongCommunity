@@ -27,6 +27,7 @@ function App() {
                 <Route path="/areaPersonale" element={<AreaPersonale />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/community" element={<CommunityPage />} />
+                <Route path="" element={<Home />} />
             </Routes>
         </Router>
     )
