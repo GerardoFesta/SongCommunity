@@ -8,23 +8,33 @@ const Container = styled.div.attrs({
     className: 'container',
 })``
 
-const Nav = styled.nav.attrs({
-    className: 'navbar navbar-expand-lg navbar-dark bg-primary',
-})`
-    margin-bottom: 20 px;
-`
+const StyledNavbar = styled.nav`
+  &.navbar {
+    border-radius: 20px; /* Arrotonda i bordi */
+    padding: 2px; /* Riduci la dimensione */
+
+    /* Aggiungi altri stili se necessario */
+  }
+`;
 
 class NavBar extends Component {
-    render() {
-        return (
-            <Container>
-                <Nav>
-                    <Logo />
-                    <Links />
-                </Nav>
-            </Container>
-        )
-    }
+  render() {
+    return (
+      <Container>
+        <StyledNavbar className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <Logo />
+          <Links />
+        </StyledNavbar>
+      </Container>
+    );
+  }
 }
+
+
+
+
+
+
+
 
 export default NavBar

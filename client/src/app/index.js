@@ -8,6 +8,8 @@ import Login from '../pages/Login';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AreaPersonale from '../pages/AreaPersonale';
+import Home from '../pages/Home';
+import { NavbarBrand } from 'react-bootstrap';
 
 function App() {
     return (
@@ -23,6 +25,7 @@ function App() {
                     element={<SongUpdate />}
                 />
                 <Route path="/areaPersonale" element={<AreaPersonale />} />
+                <Route path="/Home" element={<Home />} />
             </Routes>
         </Router>
     )

@@ -85,7 +85,7 @@ class AreaPersonale extends Component {
     console.log({preferite})
     const preferite_ids = preferite.map(pref => pref.song_id)
     console.log({preferite})
-    if (preferite.includes(songId)) {
+    if (preferite_ids.includes(songId)) {
       const updatedFavorites = preferite_ids.filter((id) => id !== songId);
       await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
       const userResponse = await api.getUserById(userId);
@@ -184,6 +184,17 @@ class AreaPersonale extends Component {
           <Button onClick={() => this.searchSimilar(original.song_id)}>Cerca Simili</Button>
         ),
         filterable: false,
+      },
+      {
+        Header: 'Favorite',
+        Cell: ({ original }) => ( 
+          <FontAwesomeIcon
+            icon={faHeart}
+            color={preferite.includes(original.song_id) ? 'lightgray' : 'red'}
+            onClick={() => this.toggleFavorite(original.song_id, original.song_id)}
+            style={{ cursor: 'pointer' }}
+          />
+        ),
       },
     ];
 

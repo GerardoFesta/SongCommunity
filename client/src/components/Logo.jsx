@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import logo from '../style/trylogo.png'
 
-import logo from '../style/logo.svg'
 
-const Wrapper = styled.a.attrs({
-    className: 'navbar-brand',
-})``
 
 class Logo extends Component {
     render() {
         return (
-            <Wrapper href="https://sambarros.com">
-                <img src={logo} width="50" height="50" alt="sambarros.com" />
-            </Wrapper>
+            <div>
+                <Link to="/Home" className="navbar-brand">
+                    <img src={logo} width="110" height="100" />
+                </Link>
+                
+            </div>
         )
     }
 }
