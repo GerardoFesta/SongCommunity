@@ -20,6 +20,8 @@ export const register = (username, password, email) => api.post('/user/register'
 export const setUserFavorites = (id, preferite) => api.post('/user/preferite', { id, preferite });
 export const getSimilarSongs = (id, preferite) => api.post('/songs/similar', { id, preferite });
 export const getSimilarUsers = (id) => api.get(`/user/similar/${id}`);
+export const getFavArtists = (id) => api.get(`/user/artists/${id}`);
+export const getFavGenres = (id) => api.get(`/user/genres/${id}`);
 
 const apis = {
     insertSong,
@@ -36,7 +38,9 @@ const apis = {
     register,
     setUserFavorites,
     getSimilarSongs,
-    getSimilarUsers
+    getSimilarUsers,
+    getFavArtists,
+    getFavGenres
 }
 
 export default apis

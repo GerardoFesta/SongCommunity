@@ -127,6 +127,10 @@ class SongList extends Component {
       showTable = false;
     }
 
+    if(localStorage.getItem('userId')==null){
+      columns.pop()
+    }
+
     return (
       <Wrapper className="container mt-4">
         {showTable && (

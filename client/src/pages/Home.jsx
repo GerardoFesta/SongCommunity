@@ -1,7 +1,22 @@
 import React from 'react';
 import logo from '../style/home.png';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+
 
 const WelcomePage = () => {
+  let navigate = useNavigate()
+  const location = useLocation();
+  if(location.pathname === '/logout'){
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userId');
+    
+    navigate('/Home')
+  }
   return (
     <div className="container text-center mt-5">
       <img src={logo} alt="Logo" className="mb-4" />

@@ -27,11 +27,11 @@ class Links extends Component {
                                 List Song
                             </Link>
                         </Item>
-                        <Item>
+                        {localStorage.getItem('isAuthenticated') && (<Item>
                             <Link to="/community" className="nav-link">
                                 Community 
                             </Link>
-                        </Item>
+                        </Item>)}
                         {!localStorage.getItem('isAuthenticated') && (
                         <Item>
     
@@ -49,6 +49,21 @@ class Links extends Component {
                         {localStorage.getItem('isAuthenticated') && (<Item>
                             <Link to="/areaPersonale" className="nav-link">
                                 Preferite
+                            </Link>
+                        </Item>
+                        )}
+                        
+                        {localStorage.getItem('isAuthenticated') && (<Item>
+                            <Link to="/statistiche" className="nav-link">
+                                Statistiche
+                            </Link>
+                        </Item>
+                        )}
+
+
+                        {localStorage.getItem('isAuthenticated') && (<Item>
+                            <Link to="/logout" className="nav-link">
+                                Logout
                             </Link>
                         </Item>
                         )}
