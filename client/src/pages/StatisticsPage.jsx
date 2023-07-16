@@ -104,16 +104,17 @@ class StatisticsPage extends Component {
   
       return (
         <Container>
-          <div>
+          <div style={{ width: '50%', display: 'inline-block' }}>
             <h1>Statistiche degli Artisti</h1>
             <Bar data={artistChartData} options={chartOptions} />
           </div>
-          <div>
+          <div style={{ width: '50%', display: 'inline-block' }}>
             <h1>Statistiche dei Generi</h1>
             <Bar data={genreChartData} options={chartOptions} />
           </div>
         </Container>
       );
+      
     }
   }
   
