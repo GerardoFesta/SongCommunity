@@ -6,7 +6,7 @@ const Song = new Schema(
         song_id: { type: Number, required: true },
         spotify_uri: { type: String, required: true },
         artists: { type: [String], required: true },
-        album_name: { type: [String], required: true },
+        album_name: { type: String, required: true },
         track_name: { type: String, required: true },
         popularity: { type: Number, required: true },
         duration_ms: { type: Number, required: true },

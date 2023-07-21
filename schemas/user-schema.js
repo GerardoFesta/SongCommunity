@@ -7,6 +7,7 @@ const User = new Schema(
         Email: { type: String, required: true },
         Preferite: { type: [Number], required: true },
         Password: { type: String, required: true },
+        Admin: { type: Boolean, required: false },
     },
     { collection: 'Users' },
     { timestamps: true },

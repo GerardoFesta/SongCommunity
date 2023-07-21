@@ -14,7 +14,7 @@ const WelcomePage = () => {
   if(location.pathname === '/logout'){
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userId');
-    
+    localStorage.removeItem('admin');
     navigate('/Home')
   }
   return (

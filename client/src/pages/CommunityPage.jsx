@@ -44,12 +44,14 @@ class CommunityPage extends Component {
           }
 
           const similarUsersResponse = await api.getSimilarUsers(userId)
+          
           const similarUsers = similarUsersResponse.data.data
 
           for(const user of similarUsers){
             const arrayPreferite = [];
             for (const songId of user.Preferite){
               const canzoneResponse = await api.getSongById(songId);
+
               const canzone = canzoneResponse.data.data;
               canzone.artists = canzone.artists.join(', ');
               canzone.track_genre = canzone.track_genre.join(', ');
@@ -104,37 +106,37 @@ class CommunityPage extends Component {
           
           return (
               <div>
-                     <Container>
-  <div className="d-flex justify-content-between">
-    {similarUsers.map((user) => (
-      <Card key={user.user_id} style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>{user.Username}</Card.Title>
-          <Card.Text>
-            Canzoni in comune: {user.commonCount}
-          </Card.Text>
-          <Card.Text>
-            Canzoni preferite:
-          </Card.Text>
-          {user.CanzoniPreferite.map((song) => (
-            <Card key={song.songId} style={{ width: '14rem', marginBottom: '20px' }}>
-              <Card.Body>
-                <Card.Title>{song.track_name}</Card.Title>
-                <Card.Text>{song.artists}</Card.Text>
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
-                  onClick={() => this.toggleFavorite(song.song_id)}
-                  style={{ cursor: 'pointer' }}
-                />
-              </Card.Body>
-            </Card>
-          ))}
-        </Card.Body>
-      </Card>
-    ))}
-  </div>
-</Container>
+                <Container>
+                  <div className="d-flex justify-content-between">
+                    {similarUsers.map((user) => (
+                      <Card key={user.user_id} style={{ width: '18rem' }}>
+                        <Card.Body>
+                          <Card.Title>{user.Username}</Card.Title>
+                          <Card.Text>
+                            Canzoni in comune: {user.commonCount}
+                          </Card.Text>
+                          <Card.Text>
+                            Canzoni preferite:
+                          </Card.Text>
+                          {user.CanzoniPreferite.map((song) => (
+                            <Card key={song.songId} style={{ width: '14rem', marginBottom: '20px' }}>
+                              <Card.Body>
+                                <Card.Title>{song.track_name}</Card.Title>
+                                <Card.Text>{song.artists}</Card.Text>
+                                <FontAwesomeIcon
+                                  icon={faHeart}
+                                  color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
+                                  onClick={() => this.toggleFavorite(song.song_id)}
+                                  style={{ cursor: 'pointer' }}
+                                />
+                              </Card.Body>
+                            </Card>
+                          ))}
+                        </Card.Body>
+                      </Card>
+                    ))}
+                  </div>
+                </Container>
             
               </div>
           )

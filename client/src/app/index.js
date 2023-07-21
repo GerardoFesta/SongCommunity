@@ -7,6 +7,7 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import CommunityPage from '../pages/CommunityPage'
 import StatisticsPage from '../pages/StatisticsPage'
+import SongDetails from '../pages/SongDetails';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AreaPersonale from '../pages/AreaPersonale';
@@ -19,6 +20,7 @@ function App() {
             <NavBar />
             <Routes>
                 <Route path="/songs/list" element={<SongList />} />
+                <Route path="/songs/:id" element={<SongDetails />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/areaPersonale" element={<AreaPersonale />} />

@@ -27,6 +27,9 @@ function Login() {
       console.log(response)
       // Se il login è avvenuto con successo, reindirizza l'utente alla pagina di dashboard
       setErrorMessage('Login Corretto');
+      console.log(response.data.data.admin)
+      if(response.data.data.admin != null)
+        localStorage.setItem('admin', 'true');
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userId', response.data.data._id);
       history("/songs/list")
