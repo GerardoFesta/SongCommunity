@@ -181,7 +181,7 @@ class AreaPersonale extends Component {
       {
         Header: 'Search similar',
         Cell: ({ original }) => (
-          <Button onClick={() => this.searchSimilar(original.song_id)}>Cerca Simili</Button>
+          <Button variant="primary" className="btn btn-dark" onClick={() => this.searchSimilar(original.song_id)}>Cerca Simili</Button>
         ),
         filterable: false,
       },
@@ -251,7 +251,7 @@ class AreaPersonale extends Component {
                 data={preferite}
                 columns={columns}
                 defaultPageSize={10}
-                filterable={true}
+                filterable={false}
                 className="-striped -highlight"
                 SubComponent={expandedRowRender} // Aggiungi la funzione di rendering per le righe espandibili
               />

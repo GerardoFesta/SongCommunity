@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import api from '../api';
 import { useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function withParams(Component) {
-    return props => <Component {...props} params={useParams()} />;
+  return props => <Component {...props} params={useParams()} />;
 }
 
 class SongDetails extends Component {
@@ -71,23 +70,24 @@ class SongDetails extends Component {
     }
   };
 
+
   render() {
     const { song, isLoading, isEditMode, editedSong } = this.state;
-    const isAdmin = localStorage.getItem("admin") != null
-    
+    const isAdmin = localStorage.getItem('admin') != null;
+
     if (isLoading) {
-      return <div>Loading...</div>; 
+      return <div>Loading...</div>;
     }
 
     // Mostra i dettagli della canzone quando sono disponibili
     return (
-        <div>
-          {song ? (
-            <div>
-              {isAdmin && isEditMode ? (
-                <div>
+      <Container>
+        {song ? (
+          <div>
+            {isAdmin && isEditMode ? (
+              <div>
                 <Form>
-                  <Form.Group controlId="track_name">
+                <Form.Group controlId="track_name">
                     <Form.Label>Track Name</Form.Label>
                     <Form.Control
                       type="text"
@@ -267,47 +267,71 @@ class SongDetails extends Component {
                     />
                   </Form.Group>
           
-                  <Button variant="primary" onClick={this.handleSaveButtonClick}>
+                  <Button variant="primary" className="btn btn-dark" onClick={this.handleSaveButtonClick}>
                     Salva
                   </Button>
                 </Form>
               </div>
-              ) : (
-                <div>
-                  {/* Visualizzazione delle informazioni della canzone */}
-                  <h1>{song.track_name}</h1>
-                  <p>Artisti: {song.artists.join(', ')}</p>
-                  <p>Generi: {song.track_genre.join(', ')}</p>
-                  <p>Album Name: {song.album_name}</p>
-                  <p>Popolarità: {song.popularity}</p>
-                  <p>Durata: {song.duration_ms} ms</p>
-                  <p>Explicit: {song.explicit ? 'Sì' : 'No'}</p>
-                  <p>Danceability: {song.danceability}</p>
-                  <p>Energy: {song.energy}</p>
-                  <p>key: {song.key}</p>
-                  <p>loudness: {song.loudness}</p>
-                  <p>mode: {song.mode}</p>
-                  <p>speechiness: {song.speechiness}</p>
-                  <p>acousticness: {song.acousticness}</p>
-                  <p>instrumentalness: {song.instrumentalness}</p>
-                  <p>liveness: {song.liveness}</p>
-                  <p>valence: {song.valence}</p>
-                  <p>tempo: {song.tempo}</p>
-                  <p>time_signature: {song.time_signature}</p>
+            ) : (
+              <div>
+                <h1 className="text-center">
+                  {song.track_name}{' '}
+                </h1>
+
+                <h2 class="centerText">
+
+                <p>{song.artists.join(', ')} - {song.album_name}</p>
+
+                </h2>
+                <Row className="paragraph-container">
+                  <Col sm={12} md={3} >
+                    
+                    <p><strong>Generi: </strong>{song.track_genre.join(', ')}</p>
+                    <p><strong>Popolarità: </strong>{song.popularity}</p>
+                    <p><strong>Durata: </strong>{song.duration_ms} ms</p>
+                    <p><strong>Explicit: </strong>{song.explicit ? 'Sì' : 'No'}</p>
                   
-                  {isAdmin && (
-                    <button onClick={this.handleEditButtonClick}>Modifica</button>
-                  )}
-                </div>
+                  </Col>
+                  <Col sm={12} md={3} >
+                    <p><strong>Danceability: </strong>{song.danceability}</p>
+                    <p><strong>Energy: </strong>{song.energy}</p>
+                    <p><strong>Key: </strong>{song.key}</p>
+                    <p><strong>Koudness:</strong> {song.loudness}</p>
+                    
+                 
+                  </Col>
+                  <Col sm={12} md={3}>
+                    <p><strong>Mode:</strong> {song.mode}</p>
+                    <p><strong>Speechiness: </strong>{song.speechiness}</p>
+                    <p><strong>Acousticness: </strong>{song.acousticness}</p>
+                    <p><strong>Instrumentalness: </strong>{song.instrumentalness}</p>
+                  </Col>
+
+                  <Col sm={12} md={3}>
+                    <p><strong>Liveness:</strong> {song.liveness}</p>
+                    <p><strong>Valence: </strong>{song.valence}</p>
+                    <p><strong>Tempo: </strong>{song.tempo}</p>
+                    <p><strong>Time signature: </strong>{song.time_signature}</p>
+                  </Col>
+                </Row>
+                <h1 className="text-center">
+                  
+              {isAdmin && (
+                <Button variant="primary" className="btn btn-dark" onClick={this.handleEditButtonClick}>
+                  Modifica
+                </Button>
               )}
-            </div>
-          ) : (
-            <div>Canzone non trovata</div>
-          )}
-        </div>
+            </h1>
+              </div>
+              
+            )}
+            
+          </div>
+        ) : (
+          <div>Canzone non trovata</div>
+        )}
+      </Container>
     );
-  
-      
   }
 }
 

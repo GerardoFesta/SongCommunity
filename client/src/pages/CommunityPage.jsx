@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
+import './style.css';
 
 class CommunityPage extends Component {
     constructor(props) {
@@ -105,40 +106,33 @@ class CommunityPage extends Component {
         if(!isLoading){
           
           return (
-              <div>
+              
                 <Container>
-                  <div className="d-flex justify-content-between">
+                  
                     {similarUsers.map((user) => (
-                      <Card key={user.user_id} style={{ width: '18rem' }}>
-                        <Card.Body>
-                          <Card.Title>{user.Username}</Card.Title>
-                          <Card.Text>
-                            Canzoni in comune: {user.commonCount}
-                          </Card.Text>
-                          <Card.Text>
-                            Canzoni preferite:
-                          </Card.Text>
-                          {user.CanzoniPreferite.map((song) => (
-                            <Card key={song.songId} style={{ width: '14rem', marginBottom: '20px' }}>
-                              <Card.Body>
-                                <Card.Title>{song.track_name}</Card.Title>
-                                <Card.Text>{song.artists}</Card.Text>
-                                <FontAwesomeIcon
+                      <div className='song-container'><div className='special-text'> {user.Username}</div>
+                      <p>Canzoni in comune: {user.commonCount}</p>
+                      <p>Canzoni preferite:</p>
+                      {user.CanzoniPreferite.map((song) => (
+                        <div className='song' >
+                          
+                          <p>{song.track_name}</p>
+                          <p>{song.artists}</p>
+                          <FontAwesomeIcon
                                   icon={faHeart}
                                   color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
                                   onClick={() => this.toggleFavorite(song.song_id)}
                                   style={{ cursor: 'pointer' }}
                                 />
-                              </Card.Body>
-                            </Card>
-                          ))}
-                        </Card.Body>
-                      </Card>
+
+                        </div>
+                        ))}
+                      </div>
                     ))}
-                  </div>
+                  
                 </Container>
             
-              </div>
+              
           )
         }
     }
