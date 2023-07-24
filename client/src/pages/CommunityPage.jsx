@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
-import './style.css';
+import '../style/style.css';
 
 class CommunityPage extends Component {
     constructor(props) {
