@@ -19,6 +19,7 @@ merged_df = unique_df.merge(grouped_df, on='spotify_uri')
 merged_df = merged_df.drop(columns=["track_genre_x"])
 merged_df = merged_df.rename(columns={"track_genre_y": "track_genre"})
 merged_df['song_id'] = range(len(merged_df))
+merged_df.dropna(inplace=True)
 json_data = merged_df.to_json(orient='records', default_handler=str)
 
 with open('C:\\Users\\Gerardo\\Downloads\\modded_dataset.json', 'w') as file:
