@@ -2,19 +2,22 @@ import React from 'react';
 import logo from '../style/home.png';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setUser } from '../components/store';
 
 
 
 
 
 const WelcomePage = () => {
+  const dispatch = useDispatch();
   let navigate = useNavigate()
   const location = useLocation();
   if(location.pathname === '/logout'){
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userId');
     localStorage.removeItem('admin');
+    dispatch(setUser(null));
     navigate('/Home')
   }
   return (

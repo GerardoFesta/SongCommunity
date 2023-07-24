@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import api from '../api';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../components/store';
 
 const Login = () => {
   const history = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
@@ -31,6 +34,14 @@ const Login = () => {
         localStorage.setItem('admin', 'true');
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userId', response.data.data._id);
+      
+      const userData = {
+        userId: response.data.data._id,
+        username: response.data.data.username,
+        admin: response.data.data.admin || false,
+      };
+      dispatch(setUser(userData));
+      
       history("/songs/list")
     } catch (error) {
       setShowErrorAlert(true);

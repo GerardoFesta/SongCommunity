@@ -1,8 +1,8 @@
-
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../style/trylogo.png'
+import { connect } from 'react-redux';
 
 const Collapse = styled.div.attrs({
     className: 'collpase navbar-collapse',
@@ -16,8 +16,10 @@ const Item = styled.div.attrs({
     className: 'collpase navbar-collapse',
 })``
 
-class Links extends Component {
+class Links extends React.Component {
     render() {
+        const { isAuthenticated } = this.props;
+
         return (
             <React.Fragment>
                 <Collapse>
@@ -27,45 +29,49 @@ class Links extends Component {
                                 List Song
                             </Link>
                         </Item>
-                        {localStorage.getItem('isAuthenticated') && (<Item>
-                            <Link to="/community" className="nav-link">
-                                Community 
-                            </Link>
-                        </Item>)}
-                        {!localStorage.getItem('isAuthenticated') && (
-                        <Item>
-    
-                            <Link to="/register" className="nav-link">
-                                Register
-                            </Link>
-                        </Item>
+                        {isAuthenticated && (
+                            <Item>
+                                <Link to="/community" className="nav-link">
+                                    Community
+                                </Link>
+                            </Item>
                         )}
-                        {!localStorage.getItem('isAuthenticated') && (<Item>
-                            <Link to="/login" className="nav-link">
-                                Login
-                            </Link>
-                        </Item>
+                        {!isAuthenticated && (
+                            <Item>
+                                <Link to="/register" className="nav-link">
+                                    Register
+                                </Link>
+                            </Item>
                         )}
-                        {localStorage.getItem('isAuthenticated') && (<Item>
-                            <Link to="/areaPersonale" className="nav-link">
-                                Preferite
-                            </Link>
-                        </Item>
+                        {!isAuthenticated && (
+                            <Item>
+                                <Link to="/login" className="nav-link">
+                                    Login
+                                </Link>
+                            </Item>
                         )}
-                        
-                        {localStorage.getItem('isAuthenticated') && (<Item>
-                            <Link to="/statistiche" className="nav-link">
-                                Statistiche
-                            </Link>
-                        </Item>
+                        {isAuthenticated && (
+                            <Item>
+                                <Link to="/areaPersonale" className="nav-link">
+                                    Preferite
+                                </Link>
+                            </Item>
                         )}
 
+                        {isAuthenticated && (
+                            <Item>
+                                <Link to="/statistiche" className="nav-link">
+                                    Statistiche
+                                </Link>
+                            </Item>
+                        )}
 
-                        {localStorage.getItem('isAuthenticated') && (<Item>
-                            <Link to="/logout" className="nav-link">
-                                Logout
-                            </Link>
-                        </Item>
+                        {isAuthenticated && (
+                            <Item>
+                                <Link to="/logout" className="nav-link">
+                                    Logout
+                                </Link>
+                            </Item>
                         )}
                     </List>
                 </Collapse>
@@ -74,4 +80,8 @@ class Links extends Component {
     }
 }
 
-export default Links
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(Links);
