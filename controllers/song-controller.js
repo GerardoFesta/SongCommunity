@@ -1,19 +1,37 @@
 const Song = require('../schemas/song-schema')
 const User = require('../schemas/user-schema')
 
-createSong = (req, res) => {
+createSong = async (req, res) => {
     const body = req.body
+
+    const maxSongIdRecord = await Song.findOne({}, { song_id: 1 }).sort({
+      song_id: -1,
+    });
+
+    let newSongId = 1;
+
+    if (maxSongIdRecord) {
+      newSongId = maxSongIdRecord.song_id + 1;
+    }
+
+    const song = new Song({
+      ...body,
+      song_id: newSongId,
+    });
+
+
+
     console.log(body)
     if (!body) {
+        console.log("NOT BODY")
         return res.status(400).json({
             success: false,
             error: 'You must provide a song',
         })
     }
 
-    const song = new Song(body)
-
     if (!song) {
+      console.log("NOT SONG")
         return res.status(400).json({success: false, error: err })
     }
 
@@ -27,6 +45,7 @@ createSong = (req, res) => {
             })
         })
         .catch(error => {
+            console.log(error)
             return res.status(400).json({
                 error,
                 message: 'Song not created!',
@@ -125,7 +144,14 @@ const getSongById = async (req, res) => {
 
 const getSongs = async (req, res) => {
     try {
-      const songs = await Song.find({}).limit(10000);
+      const songs = await Song.find({}, {
+        song_id: 1,
+        spotify_uri: 1,
+        artists: 1,
+        track_name: 1,
+        track_genre: 1,
+        _id: 0, 
+      }).sort({ song_id: 1 }).limit(20000);
       console.log(songs);
   
       if (songs.length === 0) {

@@ -39,6 +39,7 @@ class SongDetails extends Component {
       isEditMode: true,
       editedSong: { ...this.state.song }, //copia song
     });
+    console.log({...this.state.song})
   };
 
   handleInputChange = (e) => {
