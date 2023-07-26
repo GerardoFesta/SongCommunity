@@ -120,7 +120,7 @@ class CommunityPage extends Component {
                           {user.CanzoniPreferite.map((song) => (
                             <div className='song' >
                               
-                              <p>{song.track_name}</p>
+                              <p><a href={`/songs/${song.song_id}`}>{song.track_name}</a></p>
                               <p>{song.artists}</p>
                               <FontAwesomeIcon
                                       icon={faHeart}

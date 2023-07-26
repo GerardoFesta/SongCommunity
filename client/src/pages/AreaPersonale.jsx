@@ -214,17 +214,19 @@ class AreaPersonale extends Component {
                 {similarSongsData.map((song) => (
                   <Card key={song.song_id} style={{ width: '18rem' }}>
                     <Card.Body>
-                      <Card.Title>{song.track_name}</Card.Title>
-                      <Card.Text>
-                        <strong>Album: </strong>
-                        {song.album_name}
-                        <br />
-                        <strong>Genre: </strong>
-                        {song.track_genre}
-                        <br />
-                        <strong>Artists: </strong>
-                        {song.artists}
-                      </Card.Text>
+                      
+                        <Card.Title><a href={`/songs/${song.song_id}`}>{song.track_name}</a></Card.Title>
+                        <Card.Text>
+                          <strong>Album: </strong>
+                          {song.album_name}
+                          <br />
+                          <strong>Genre: </strong>
+                          {song.track_genre}
+                          <br />
+                          <strong>Artists: </strong>
+                          {song.artists}
+                        </Card.Text>
+                      
                       <FontAwesomeIcon
                         icon={faHeart}
                         color={preferite.includes(song.song_id) ? 'red' : 'lightgray'}
