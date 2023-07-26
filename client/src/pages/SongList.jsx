@@ -9,6 +9,7 @@ import 'react-table-6/react-table.css';
 import {Alert, Spinner} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 
 const Wrapper = styled.div`
@@ -32,8 +33,8 @@ class SongList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-  
-    const userId = localStorage.getItem('userId');
+    const { userId } = this.props;
+    //const userId = localStorage.getItem('userId');
     let favorites = []
     if(userId!=null){
         const userResponse = await api.getUserById(userId);
@@ -61,14 +62,14 @@ class SongList extends Component {
 
   toggleFavorite = async (songId) => {
     const { favorites } = this.state;
-  
+    const { userId } = this.props;
     if (favorites.includes(songId)) {
       const updatedFavorites = favorites.filter((id) => id !== songId);
-      await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+      await api.setUserFavorites(userId, updatedFavorites);
       this.setState({ favorites: updatedFavorites });
     } else {
       const updatedFavorites = [...favorites, songId];
-      await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+      await api.setUserFavorites(userId, updatedFavorites);
       this.setState({ favorites: updatedFavorites });
       this.setState({ showAlertPreferita: true });
     }
@@ -123,6 +124,7 @@ class SongList extends Component {
 
   render() {
     const { songs, isLoading, favorites, showAlertEliminata, showAlertPreferita, addSongMode, editedSong } = this.state;
+    const { userId, admin } = this.props;
 
     const columns = [
       {
@@ -199,11 +201,11 @@ class SongList extends Component {
       showTable = false;
     }
     //This shows the right columns only if you are logged/admin
-    if(localStorage.getItem('userId')==null){
+    if(userId==null){
       columns.pop()
       columns.pop()
     }else{
-      if(localStorage.getItem("admin")==null)
+      if(admin==null)
         columns.pop()
     }
 
@@ -249,7 +251,7 @@ class SongList extends Component {
               </div>
             </div>
           )}
-          {showTable && localStorage.getItem("admin") &&(
+          {showTable && admin &&(
             <Button variant="primary" className="btn btn-dark" onClick={() => this.setState({
               addSongMode:true,
               editedSong: {
@@ -484,5 +486,10 @@ class SongList extends Component {
     }
   }
 }
-
-export default SongList;
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+export default connect(mapStateToProps)(SongList);

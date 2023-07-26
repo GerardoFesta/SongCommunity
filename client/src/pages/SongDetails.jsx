@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../api';
 import { useParams } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
@@ -74,7 +75,9 @@ class SongDetails extends Component {
 
   render() {
     const { song, isLoading, isEditMode, editedSong } = this.state;
-    const isAdmin = localStorage.getItem('admin') != null;
+
+    const { admin } = this.props;
+    //const isAdmin = localStorage.getItem('admin') != null;
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -85,7 +88,7 @@ class SongDetails extends Component {
       <Container>
         {song ? (
           <div>
-            {isAdmin && isEditMode ? (
+            {admin && isEditMode ? (
               <div>
                 <Form>
                 <Form.Group controlId="track_name">
@@ -317,7 +320,7 @@ class SongDetails extends Component {
                 </Row>
                 <h1 className="text-center">
                   
-              {isAdmin && (
+              {admin && (
                 <Button variant="primary" className="btn btn-dark" onClick={this.handleEditButtonClick}>
                   Modifica
                 </Button>
@@ -336,4 +339,11 @@ class SongDetails extends Component {
   }
 }
 
-export default withParams(SongDetails);
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(withParams(SongDetails));

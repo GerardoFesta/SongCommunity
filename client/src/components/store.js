@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
-
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 const SET_USER = 'SET_USER';
 
 export const setUser = (userData) => ({
@@ -23,6 +24,13 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(rootReducer);
+const persistConfig = {
+  key: 'root', // La chiave sotto cui verrà memorizzato lo stato persistito
+  storage, // Specifica lo storage da utilizzare
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default store;
+
+export const store = createStore(persistedReducer);
+
+export const persistor = persistStore(store);

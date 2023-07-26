@@ -10,11 +10,11 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import '../style/style.css';
+import { connect } from 'react-redux';
 
 class CommunityPage extends Component {
     constructor(props) {
         super(props);
-        const userId = localStorage.getItem('userId');
         // Inizializza lo stato con i dati dell'utente
         this.state = {
           preferite: [],
@@ -24,7 +24,7 @@ class CommunityPage extends Component {
       }
     
       componentDidMount = async () => {
-        const userId = localStorage.getItem('userId');
+        const {userId} = this.props;
     
         if (userId != null) {
           const userResponse = await api.getUserById(userId);
@@ -89,13 +89,15 @@ class CommunityPage extends Component {
       };
       toggleFavorite = async (songId) => {
         const { preferiteIds } = this.state;
+        const {userId} = this.props;
+        
         if (preferiteIds.includes(songId)) {
           const updatedFavorites = preferiteIds.filter((id) => id !== songId);
-          await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+          await api.setUserFavorites(userId, updatedFavorites);
           this.setState({ preferiteIds: updatedFavorites });
         } else {
           const updatedFavorites = [...preferiteIds, songId];
-          await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+          await api.setUserFavorites(userId, updatedFavorites);
           this.setState({ preferiteIds: updatedFavorites });
         }
       };
@@ -110,23 +112,26 @@ class CommunityPage extends Component {
                 <Container>
                   
                     {similarUsers.map((user) => (
-                      <div className='song-container'><div className='special-text'> {user.Username}</div>
-                      <p>Canzoni in comune: {user.commonCount}</p>
-                      <p>Canzoni preferite:</p>
-                      {user.CanzoniPreferite.map((song) => (
-                        <div className='song' >
-                          
-                          <p>{song.track_name}</p>
-                          <p>{song.artists}</p>
-                          <FontAwesomeIcon
-                                  icon={faHeart}
-                                  color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
-                                  onClick={() => this.toggleFavorite(song.song_id)}
-                                  style={{ cursor: 'pointer' }}
-                                />
+                      <div>
+                        <div className='special-text'><b> {user.Username}</b></div>
+                        <div className='song-container'>
+                          <p>Canzoni in comune: {user.commonCount}</p>
+                          <p>Canzoni preferite:</p>
+                          {user.CanzoniPreferite.map((song) => (
+                            <div className='song' >
+                              
+                              <p>{song.track_name}</p>
+                              <p>{song.artists}</p>
+                              <FontAwesomeIcon
+                                      icon={faHeart}
+                                      color={preferiteIds.includes(song.song_id) ? 'red' : 'lightgrey'}
+                                      onClick={() => this.toggleFavorite(song.song_id)}
+                                      style={{ cursor: 'pointer' }}
+                                    />
 
+                          </div>
+                          ))}
                         </div>
-                        ))}
                       </div>
                     ))}
                   
@@ -138,4 +143,11 @@ class CommunityPage extends Component {
     }
 }
 
-export default CommunityPage
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(CommunityPage);

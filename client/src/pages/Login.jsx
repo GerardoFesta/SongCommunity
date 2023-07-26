@@ -4,13 +4,14 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import api from '../api';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../components/store';
+import { connect } from 'react-redux';
 
-const Login = () => {
+const Login = (props) => {
   const history = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const {isAuthenticated} = props;
 
     if (isAuthenticated) {
       history('/songs/list');
@@ -30,15 +31,11 @@ const Login = () => {
       const response = await api.login(username, password);
       // Se il login è avvenuto con successo, reindirizza l'utente alla pagina di dashboard
       setShowSuccessAlert(true);
-      if (response.data.data.admin != null)
-        localStorage.setItem('admin', 'true');
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userId', response.data.data._id);
       
       const userData = {
         userId: response.data.data._id,
         username: response.data.data.username,
-        admin: response.data.data.admin || false,
+        admin: response.data.data.admin || null,
       };
       dispatch(setUser(userData));
       
@@ -90,4 +87,11 @@ const Login = () => {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(Login);

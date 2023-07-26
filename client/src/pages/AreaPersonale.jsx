@@ -9,11 +9,14 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
+import { connect } from 'react-redux';
+
 
 class AreaPersonale extends Component {
   constructor(props) {
     super(props);
-    const userId = localStorage.getItem('userId');
+    const { userId } = this.props;
+    //const userId = localStorage.getItem('userId');
     // Inizializza lo stato con i dati dell'utente
     this.state = {
       username: '',
@@ -24,7 +27,8 @@ class AreaPersonale extends Component {
   }
 
   componentDidMount = async () => {
-    const userId = localStorage.getItem('userId');
+    const { userId } = this.props;
+    //const userId = localStorage.getItem('userId');
 
     if (userId != null) {
       const userResponse = await api.getUserById(userId);
@@ -81,13 +85,14 @@ class AreaPersonale extends Component {
   toggleFavorite = async (songId, startingSong) => {
 
     const { preferite } = this.state;
-    const userId = localStorage.getItem('userId');
+    //const userId = localStorage.getItem('userId');
+    const { userId } = this.props;
     console.log({preferite})
     const preferite_ids = preferite.map(pref => pref.song_id)
     console.log({preferite})
     if (preferite_ids.includes(songId)) {
       const updatedFavorites = preferite_ids.filter((id) => id !== songId);
-      await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+      await api.setUserFavorites(userId, updatedFavorites);
       const userResponse = await api.getUserById(userId);
       const user = userResponse.data.data;
       const preferite = user.Preferite
@@ -106,7 +111,7 @@ class AreaPersonale extends Component {
     } else {
       
       const updatedFavorites = [...preferite_ids, songId];
-      await api.setUserFavorites(localStorage.getItem('userId'), updatedFavorites);
+      await api.setUserFavorites(userId, updatedFavorites);
       console.log(userId)
       const userResponse = await api.getUserById(userId);
       const user = userResponse.data.data;
@@ -265,4 +270,11 @@ class AreaPersonale extends Component {
   }
 }
 
-export default AreaPersonale;
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(AreaPersonale);

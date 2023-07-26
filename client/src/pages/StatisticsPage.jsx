@@ -9,6 +9,7 @@ import { Doughnut, Bar, Line } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import styled from 'styled-components';
 import 'react-table-6/react-table.css';
+import { connect } from 'react-redux';
 
 
 
@@ -28,7 +29,7 @@ class StatisticsPage extends Component {
       Chart.register(CategoryScale, LinearScale, BarElement);
       this.setState({ isLoading: true });
   
-      const userId = localStorage.getItem('userId');
+      const {userId} = this.props;
       let favorites = [];
       if (userId != null) {
         const userResponse = await api.getUserById(userId);
@@ -117,7 +118,13 @@ class StatisticsPage extends Component {
       
     }
   }
+  const mapStateToProps = (state) => ({
+    isAuthenticated: !!state.user,
+    userId: state.user?.userId || null,
+    username: state.user?.username || null,
+    admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+  });
   
-  export default StatisticsPage;
-  
+  export default connect(mapStateToProps)(StatisticsPage);
+
   

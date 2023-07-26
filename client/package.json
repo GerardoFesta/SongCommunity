@@ -52,6 +52,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-redux": "^8.1.1",
     "react-table-6": "^6.11.0",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0"
   }
 }

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import { connect } from 'react-redux';
 
-function Register() {
+function Register(props) {
   const history = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const {isAuthenticated} = props;
 
     if (isAuthenticated) {
       history('/songs/list');
@@ -94,4 +95,12 @@ function Register() {
   );
 }
 
-export default Register;
+const mapStateToProps = (state) => ({
+  isAuthenticated: !!state.user,
+  userId: state.user?.userId || null,
+  username: state.user?.username || null,
+  admin: state.user?.admin || null, // Se lo stato contiene l'utente, allora l'utente è autenticato
+});
+
+export default connect(mapStateToProps)(Register);
+
