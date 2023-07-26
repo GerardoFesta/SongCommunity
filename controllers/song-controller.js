@@ -151,7 +151,7 @@ const getSongs = async (req, res) => {
         track_name: 1,
         track_genre: 1,
         _id: 0, 
-      }).sort({ song_id: 1 }).limit(20000);
+      }).sort({ song_id: 1 });
       console.log(songs);
   
       if (songs.length === 0) {
