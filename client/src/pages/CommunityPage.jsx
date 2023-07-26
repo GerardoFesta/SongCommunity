@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import api, { getUserById } from '../api';
-import { useState, useEffect } from 'react';
+import api from '../api';
+
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactTable from 'react-table-6';
+
 import 'react-table-6/react-table.css';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/ListGroup';
+
 import Container from 'react-bootstrap/Container';
 import '../style/style.css';
 import { connect } from 'react-redux';
@@ -114,9 +112,10 @@ class CommunityPage extends Component {
                     {similarUsers.map((user) => (
                       <div>
                         <div className='special-text'><b> {user.Username}</b></div>
-                        <div className='song-container'>
+                        
                           <p>Canzoni in comune: {user.commonCount}</p>
                           <p>Canzoni preferite:</p>
+                          <div className='song-container'>
                           {user.CanzoniPreferite.map((song) => (
                             <div className='song' >
                               

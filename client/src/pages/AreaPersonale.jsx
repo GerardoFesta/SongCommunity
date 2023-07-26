@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import api, { getUserById } from '../api';
-import { useState, useEffect } from 'react';
+import api from '../api';
+
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/ListGroup';
+
 import Container from 'react-bootstrap/Container';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 class AreaPersonale extends Component {
   constructor(props) {
     super(props);
-    const { userId } = this.props;
     //const userId = localStorage.getItem('userId');
     // Inizializza lo stato con i dati dell'utente
     this.state = {
